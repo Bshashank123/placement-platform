@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/context/AuthContext";
+import { useAuthStore } from "@/hooks/useAuthStore";
 import api from "@/lib/api";
 import toast from "react-hot-toast";
 
@@ -11,7 +11,7 @@ export default function SetupPasswordPage() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const { setAuth } = useAuth();
+  const setAuth = useAuthStore(state => state.setAuth);
 
   useEffect(() => {
     const token = sessionStorage.getItem("setup_token");
