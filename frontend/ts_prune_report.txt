@@ -1,0 +1,55 @@
+﻿\tailwind.config.ts:28 - default
+\src\components\UnderConstruction.tsx:3 - default
+\src\types\index.ts:1 - Role (used in module)
+\src\types\index.ts:3 - Tenant (used in module)
+\src\types\index.ts:10 - User (used in module)
+\src\types\index.ts:20 - TokenResponse
+\src\types\index.ts:26 - ApiError
+\.next\types\app\layout.ts:49 - PageProps
+\.next\types\app\layout.ts:53 - LayoutProps (used in module)
+\.next\types\app\page.ts:49 - PageProps (used in module)
+\.next\types\app\page.ts:53 - LayoutProps
+\src\app\superadmin\layout.tsx:6 - default
+\src\app\superadmin\page.tsx:6 - default
+\.next\types\app\dashboard\layout.ts:49 - PageProps
+\.next\types\app\dashboard\layout.ts:53 - LayoutProps (used in module)
+\.next\types\app\dashboard\page.ts:49 - PageProps (used in module)
+\.next\types\app\dashboard\page.ts:53 - LayoutProps
+\src\app\auth\forgot-password\page.tsx:9 - default
+\src\app\auth\setup-password\page.tsx:9 - default
+\src\app\auth\signup\page.tsx:21 - default
+\src\app\dashboard\admin\page.tsx:32 - default
+\src\app\dashboard\analytics\page.tsx:17 - default
+\src\app\dashboard\faculty\page.tsx:6 - default
+\src\app\dashboard\quests\page.tsx:20 - default
+\src\app\dashboard\students\page.tsx:22 - default
+\src\app\dashboard\superadmin\page.tsx:31 - default
+\src\app\dashboard\tenants\page.tsx:20 - default
+\src\app\dashboard\users\page.tsx:26 - default
+\src\app\superadmin\feedback\page.tsx:16 - default
+\src\app\superadmin\settings\page.tsx:7 - default
+\src\app\superadmin\tenants\page.tsx:18 - default
+\src\app\superadmin\users\page.tsx:22 - default
+\.next\types\app\auth\login\page.ts:49 - PageProps (used in module)
+\.next\types\app\auth\login\page.ts:53 - LayoutProps
+\.next\types\app\dashboard\ats\page.ts:49 - PageProps (used in module)
+\.next\types\app\dashboard\ats\page.ts:53 - LayoutProps
+\.next\types\app\dashboard\companies\page.ts:49 - PageProps (used in module)
+\.next\types\app\dashboard\companies\page.ts:53 - LayoutProps
+\.next\types\app\dashboard\profile\page.ts:49 - PageProps (used in module)
+\.next\types\app\dashboard\profile\page.ts:53 - LayoutProps
+\.next\types\app\dashboard\ranking\page.ts:49 - PageProps (used in module)
+\.next\types\app\dashboard\ranking\page.ts:53 - LayoutProps
+\.next\types\app\dashboard\resumes\page.ts:49 - PageProps (used in module)
+\.next\types\app\dashboard\resumes\page.ts:53 - LayoutProps
+\.next\types\app\dashboard\reviews\page.ts:49 - PageProps (used in module)
+\.next\types\app\dashboard\reviews\page.ts:53 - LayoutProps
+\src\app\dashboard\admin\broadcast\page.tsx:9 - default
+\src\app\dashboard\admin\drives\page.tsx:26 - default
+\src\app\dashboard\admin\offers\page.tsx:31 - default
+\src\app\dashboard\admin\shortlist\page.tsx:19 - default
+\src\app\dashboard\faculty\quests\page.tsx:20 - default
+\src\app\dashboard\faculty\ranking\page.tsx:20 - default
+\src\app\dashboard\faculty\reviews\page.tsx:6 - default
+\src\app\dashboard\resumes\[id]\page.tsx:44 - default
+\src\app\dashboard\faculty\student\[id]\page.tsx:45 - default

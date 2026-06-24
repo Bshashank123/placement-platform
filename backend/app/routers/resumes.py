@@ -169,8 +169,13 @@ def download_resume(
     except Exception as e:
         raise HTTPException(404, "File not found on server")
         
+    import re
+    safe_name = re.sub(r'[^a-zA-Z0-9_.-]', '_', resume.file_name)
+    if not safe_name:
+        safe_name = "resume.pdf"
+        
     return Response(
         content=file_bytes, 
         media_type="application/pdf",
-        headers={"Content-Disposition": f'inline; filename="{resume.file_name}"'}
+        headers={"Content-Disposition": f'inline; filename="{safe_name}"'}
     )

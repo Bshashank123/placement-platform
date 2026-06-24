@@ -30,7 +30,7 @@ export default function LoginPage() {
   const onSubmit = async (data: FormData) => {
     try {
       const res = await api.post<TokenResponse>("/auth/login", data);
-      setAuth(res.data.user, res.data.access_token);
+      setAuth(res.data.user, res.data.access_token, res.data.refresh_token);
       toast.success(`Welcome back, ${res.data.user.email.split("@")[0]}!`);
       if (res.data.user.role === 'super_admin') {
         router.push("/superadmin");

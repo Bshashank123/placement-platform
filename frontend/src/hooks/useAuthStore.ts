@@ -16,10 +16,11 @@ export const useAuthStore = create<AuthState>((set) => ({
   token: null,
   isAuthenticated: false,
 
-  setAuth: (user: User, token?: string) => {
-    // token is no longer needed in localStorage since it's in an HttpOnly cookie
+  setAuth: (user: User, token?: string, refreshToken?: string) => {
     if (typeof window !== "undefined") {
       localStorage.setItem("user", JSON.stringify(user));
+      if (token) localStorage.setItem("token", token);
+      if (refreshToken) localStorage.setItem("refreshToken", refreshToken);
     }
     set({ user, token: token || null, isAuthenticated: true });
   },
@@ -32,6 +33,8 @@ export const useAuthStore = create<AuthState>((set) => ({
     }
     if (typeof window !== "undefined") {
       localStorage.removeItem("user");
+      localStorage.removeItem("token");
+      localStorage.removeItem("refreshToken");
     }
     set({ user: null, token: null, isAuthenticated: false });
     window.location.href = "/auth/login";

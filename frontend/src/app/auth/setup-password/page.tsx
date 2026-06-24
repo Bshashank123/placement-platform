@@ -42,7 +42,7 @@ export default function SetupPasswordPage() {
       );
       
       sessionStorage.removeItem("setup_token");
-      setAuth(res.data.user, res.data.access_token);
+      setAuth(res.data.user, res.data.access_token, res.data.refresh_token);
       toast.success("Password updated successfully!");
       
       if (res.data.user.role === 'super_admin') {

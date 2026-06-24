@@ -35,7 +35,10 @@ class Settings(BaseSettings):
 
 @lru_cache()
 def get_settings() -> Settings:
-    return Settings()
+    s = Settings()
+    if s.APP_ENV == "production" and s.JWT_SECRET_KEY == "change-me-in-production":
+        raise ValueError("JWT_SECRET_KEY must be overridden in production!")
+    return s
 
 
 settings = get_settings()

@@ -57,6 +57,9 @@ def upload_and_parse_resume(
         )
     if len(file_bytes) < 100:
         raise HTTPException(400, "File appears to be empty or corrupt.")
+        
+    if not file_bytes.startswith(b"%PDF-"):
+        raise HTTPException(400, "Invalid file format. Only true PDF files are allowed.")
 
     # ── Get student ───────────────────────────────────────────────────────────
     student = db.query(Student).filter(Student.user_id == user_id).first()

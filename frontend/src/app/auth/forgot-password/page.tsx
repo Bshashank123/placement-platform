@@ -47,7 +47,7 @@ export default function ForgotPasswordPage() {
         new_password: newPassword
       });
       
-      setAuth(res.data.user, res.data.access_token);
+      setAuth(res.data.user, res.data.access_token, res.data.refresh_token);
       toast.success("Password reset successfully!");
       
       if (res.data.user.role === 'super_admin') {

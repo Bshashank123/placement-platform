@@ -16,7 +16,13 @@ else:
 
 def get_s3_key(tenant_id: int, student_id: int, filename: str) -> str:
     """Generate a tenant-isolated S3 key."""
-    safe_name = filename.replace(' ', '_')
+    import re
+    # Strip everything except alphanumeric, dot, underscore, dash
+    safe_name = re.sub(r'[^a-zA-Z0-9_.-]', '_', filename)
+    # Prevent traversal just in case
+    safe_name = safe_name.replace("..", "_").strip("_")
+    if not safe_name:
+        safe_name = "resume.pdf"
     return f"tenants/{tenant_id}/students/{student_id}/{safe_name}"
 
 def upload_file_to_s3(file_bytes: bytes, key: str) -> str:

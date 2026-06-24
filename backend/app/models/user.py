@@ -20,6 +20,8 @@ class User(Base):
     is_verified   = Column(Boolean, default=False)
     requires_password_change = Column(Boolean, default=False)
     mobile_number = Column(String(20), nullable=True, unique=True, index=True)
+    reset_otp     = Column(String(6), nullable=True)
+    reset_otp_expiry = Column(DateTime(timezone=True), nullable=True)
     created_at    = Column(DateTime(timezone=True), server_default=func.now())
     updated_at    = Column(DateTime(timezone=True), onupdate=func.now())
 
