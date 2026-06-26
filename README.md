@@ -1,294 +1,122 @@
+# Placement Platform
 
-Backend 
-
-cd C:\Users\shash\OneDrive\Desktop\placement-platform\backend
-venv\Scripts\activate
-uvicorn app.main:app --reload --port 8000
-
-
-Front 
-
-cd C:\Users\shash\OneDrive\Desktop\placement-platform\frontend
-npm run dev
-
-
-
-
-# Placement Readiness & Resume Intelligence Platform
-
-> Multi-tenant SaaS for colleges — ATS scoring, student ranking, faculty reviews, company matching.
-
----
-
-## Project Structure
-
-```
-placement-platform/
-├── backend/                  # FastAPI (Python)
-│   ├── app/
-│   │   ├── core/             # config.py, security.py
-│   │   ├── models/           # All 18 SQLAlchemy tables
-│   │   ├── schemas/          # Pydantic request/response models
-│   │   ├── routers/          # API route handlers
-│   │   ├── services/         # Business logic
-│   │   ├── dependencies.py   # JWT auth guards
-│   │   ├── database.py       # DB session + Base
-│   │   └── main.py           # FastAPI app entry point
-│   ├── alembic/              # Database migrations
-│   ├── scripts/
-│   │   └── seed.py           # Seed colleges + test accounts
-│   ├── tests/
-│   │   └── test_auth.py      # Module 1 tests
-│   ├── requirements.txt
-│   └── .env.example
-│
-└── frontend/                 # Next.js 14 (TypeScript)
-    └── src/
-        ├── app/
-        │   ├── auth/
-        │   │   ├── login/    # Login page
-        │   │   └── signup/   # Signup page
-        │   └── dashboard/    # Protected dashboard + layout
-        ├── hooks/
-        │   └── useAuthStore.ts  # Zustand auth state
-        ├── lib/
-        │   └── api.ts        # Axios instance with JWT interceptor
-        └── types/
-            └── index.ts      # Shared TypeScript types
-```
-
----
+A scalable resume parsing and placement platform for colleges, built with FastAPI (Backend) and Next.js (Frontend).
 
 ## Prerequisites
-
-| Tool        | Minimum version | Check                  |
-|-------------|-----------------|------------------------|
-| Python      | 3.11+           | `python --version`     |
-| Node.js     | 18+             | `node --version`       |
-| PostgreSQL  | 14+             | `psql --version`       |
+- **Node.js**: v18 or higher
+- **Python**: v3.10 or higher
+- **PostgreSQL**: v15 or higher (If running manually without Docker)
+- **Docker & Docker Compose** (Optional, but recommended for easy setup)
 
 ---
 
-## 1. Database Setup
+## Method 1: Quick Start with Docker (Recommended)
 
-Open `psql` and create the database:
+The easiest way to get the entire stack (Database, Backend API, Frontend) running is via Docker Compose.
 
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/Bshashank123/placement-platform.git
+   cd placement-platform
+   ```
+
+2. **Start the containers:**
+   ```bash
+   docker-compose up --build -d
+   ```
+
+3. **Initialize the database (Run migrations & seed script):**
+   ```bash
+   docker exec -it placement-backend alembic upgrade head
+   docker exec -it placement-backend python scripts/seed.py
+   ```
+
+4. **Access the application:**
+   - **Frontend:** http://localhost:3000
+   - **Backend API Docs:** http://localhost:8000/docs
+   
+   *(Note: The seed script will create some default accounts. Check the backend logs or `seed.py` for demo credentials).*
+
+---
+
+## Method 2: Manual Local Setup
+
+If you prefer to run the application locally without Docker, follow these steps.
+
+### 1. Set up the PostgreSQL Database
+Make sure PostgreSQL is running on your machine, then create the database:
 ```sql
 CREATE DATABASE placement_platform;
 ```
 
-That's it. Tables are created automatically on first run.
+### 2. Set up the Backend (FastAPI)
+
+1. Open a terminal and navigate to the backend folder:
+   ```bash
+   cd backend
+   ```
+
+2. Create and activate a Python virtual environment:
+   ```bash
+   # Windows
+   python -m venv venv
+   venv\Scripts\activate
+
+   # Mac/Linux
+   python3 -m venv venv
+   source venv/bin/activate
+   ```
+
+3. Install the dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. Configure your environment variables:
+   Copy `.env.example` to `.env` and adjust the `DATABASE_URL` if your PostgreSQL username/password is different.
+   ```bash
+   cp .env.example .env
+   ```
+
+5. Run database migrations and seed default data:
+   ```bash
+   alembic upgrade head
+   python scripts/seed.py
+   ```
+
+6. Start the backend server:
+   ```bash
+   uvicorn app.main:app --reload
+   ```
+   The backend API will now be running at http://localhost:8000.
+
+### 3. Set up the Frontend (Next.js)
+
+1. Open a new terminal and navigate to the frontend folder:
+   ```bash
+   cd frontend
+   ```
+
+2. Install the Node modules:
+   ```bash
+   npm install
+   ```
+
+3. Configure your environment variables:
+   Copy `.env.example` to `.env.local` to configure the API URL.
+   ```bash
+   cp .env.example .env.local
+   ```
+
+4. Start the frontend development server:
+   ```bash
+   npm run dev
+   ```
+   The frontend UI will now be running at http://localhost:3000.
 
 ---
 
-## 2. Backend Setup
-
-```bash
-cd placement-platform/backend
-
-# Create and activate virtual environment
-python -m venv venv
-
-# macOS / Linux
-source venv/bin/activate
-
-# Windows
-venv\Scripts\activate
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Copy env file and edit your DB password
-cp .env.example .env
-# Open .env and set DATABASE_URL with your postgres password
-
-# Run the seed script (creates colleges + test accounts)
-python scripts/seed.py
-
-# Start the server
-uvicorn app.main:app --reload --port 8000
-```
-
-Backend is now running at: **http://localhost:8000**
-Interactive API docs: **http://localhost:8000/docs**
-
----
-
-## 3. Frontend Setup
-
-```bash
-cd placement-platform/frontend
-
-# Install dependencies
-npm install
-
-# Start dev server
-npm run dev
-```
-
-Frontend is now running at: **http://localhost:3000**
-
----
-
-## 4. Test Credentials
-
-After running `python scripts/seed.py`:
-
-| Role        | Email                      | Password       |
-|-------------|----------------------------|----------------|
-| Student     | student@vit.edu            | Student@1234   |
-| Student     | student@srm.edu            | Student@1234   |
-| Student     | student@demo.edu           | Student@1234   |
-| Faculty     | faculty@vit.edu            | Faculty@1234   |
-| Admin       | admin@vit.edu              | Admin@1234     |
-| Super Admin | superadmin@platform.com    | Admin@1234     |
-
----
-
-## 5. API Endpoints — Module 1
-
-Base URL: `http://localhost:8000/api/v1`
-
-### Auth
-
-| Method | Endpoint       | Auth     | Description                          |
-|--------|----------------|----------|--------------------------------------|
-| POST   | /auth/signup   | None     | Register (auto-detects college)      |
-| POST   | /auth/login    | None     | Login → returns Bearer JWT           |
-| GET    | /auth/me       | Bearer   | Get current user                     |
-
-### Tenants (super_admin only)
-
-| Method | Endpoint                     | Description            |
-|--------|------------------------------|------------------------|
-| POST   | /tenants/                    | Create college tenant  |
-| GET    | /tenants/                    | List all tenants       |
-| GET    | /tenants/{id}                | Get tenant by ID       |
-| PATCH  | /tenants/{id}/deactivate     | Deactivate tenant      |
-
-### Example: Signup
-
-```bash
-curl -X POST http://localhost:8000/api/v1/auth/signup \
-  -H "Content-Type: application/json" \
-  -d '{"email":"yourname@vit.edu","password":"Password1","name":"Your Name","role":"student"}'
-```
-
-### Example: Login
-
-```bash
-curl -X POST http://localhost:8000/api/v1/auth/login \
-  -H "Content-Type: application/json" \
-  -d '{"email":"student@vit.edu","password":"Student@1234"}'
-```
-
-### Example: Get current user
-
-```bash
-curl http://localhost:8000/api/v1/auth/me \
-  -H "Authorization: Bearer <your_token>"
-```
-
----
-
-## 6. How Tenant Detection Works
-
-```
-student@vit.edu
-     ↓
-Extract domain → "vit.edu"
-     ↓
-Look up tenants table WHERE domain = "vit.edu"
-     ↓
-Found → assign tenant_id = VIT
-Not found → 400 "No college found for domain @vit.edu"
-```
-
-Students registering with `@vit.edu` are automatically placed inside the VIT tenant.
-All their data (resumes, scores, rankings) is isolated from other colleges.
-
----
-
-## 7. JWT Payload
-
-Every token contains:
-
-```json
-{
-  "sub":       "42",
-  "role":      "student",
-  "tenant_id": 1,
-  "exp":       1234567890,
-  "iat":       1234567890
-}
-```
-
-The backend reads `tenant_id` from the token on every request to enforce
-data isolation — no student can ever see another college's data.
-
----
-
-## 8. Run Tests
-
-```bash
-cd backend
-pytest tests/ -v
-```
-
-Tests use an in-memory SQLite database — no Postgres needed for testing.
-
----
-
-## 9. Database Migrations (optional, for schema changes)
-
-```bash
-cd backend
-
-# Generate a migration after changing models
-alembic revision --autogenerate -m "describe your change"
-
-# Apply migrations
-alembic upgrade head
-
-# Roll back one step
-alembic downgrade -1
-```
-
----
-
-## 10. Module Build Order
-
-| # | Module                   | Status     | What it adds                                 |
-|---|--------------------------|------------|----------------------------------------------|
-| 1 | Auth + Tenant System     | ✅ Done    | Login, signup, JWT, tenant isolation         |
-| 2 | Student Module           | 🔜 Next    | Student profiles, skills, dashboard data     |
-| 3 | Resume Upload + Parsing  | 🔜         | PDF upload, text extraction, bullet parsing  |
-| 4 | ATS Scoring Engine       | 🔜         | Impact / skills / structure / brevity scores |
-| 5 | Faculty Review           | 🔜         | Resume comments, faculty dashboard           |
-| 6 | Admin / Super Admin      | 🔜         | Companies, matching, analytics, tenant mgmt  |
-
----
-
-## 11. Roles and Permissions
-
-| Role        | Can do                                          |
-|-------------|------------------------------------------------|
-| student     | Upload resumes, view ATS score, see rank        |
-| faculty     | View student resumes, leave reviews             |
-| admin       | Add companies, view analytics, manage placement |
-| super_admin | Create colleges, assign admins, manage platform |
-
----
-
-## 12. Tech Stack
-
-| Layer     | Technology                          |
-|-----------|-------------------------------------|
-| Frontend  | Next.js 14, TypeScript, Tailwind CSS|
-| State     | Zustand                             |
-| Forms     | React Hook Form + Zod               |
-| Backend   | FastAPI (Python 3.12)               |
-| Database  | PostgreSQL 16 (SQLAlchemy ORM)      |
-| Auth      | JWT (python-jose) + bcrypt          |
-| Migrations| Alembic                             |
-| Parsing   | PyMuPDF + spaCy (Module 3+)         |
+## Troubleshooting
+- **Database Connection Errors:** Ensure your PostgreSQL server is running and the credentials in `backend/.env` match your local DB setup.
+- **CORS Errors:** Make sure `FRONTEND_URL` in `backend/.env` matches exactly where your frontend is running (e.g., `http://localhost:3000` without a trailing slash).
+- **Missing Files:** The repository ignores `.env` files and `node_modules` by design. Always make sure to duplicate the `.env.example` files and run `npm install`.
